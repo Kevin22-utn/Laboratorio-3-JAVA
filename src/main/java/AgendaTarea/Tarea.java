@@ -4,8 +4,6 @@
  */
 package AgendaTarea;
 
-import Main.*;
-
 /**
  *
  * @author matam
