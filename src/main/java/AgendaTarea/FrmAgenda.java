@@ -17,6 +17,8 @@ public class FrmAgenda extends javax.swing.JFrame {
         listaTareas = new ListaTareas();
         modeloGrafico = new DefaultListModel<>();
         jList1.setModel(modeloGrafico);
+        
+        this.setLocationRelativeTo(null);
     }
     private void actualizarListaGrafica() {
         modeloGrafico.clear();
