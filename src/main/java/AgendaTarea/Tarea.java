@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package AgendaTarea;
 
-/**
- *
- * @author matam
- */
 public class Tarea {
     private String descripcion;
     private boolean completada;
@@ -40,10 +32,9 @@ public class Tarea {
     @Override
     public String toString() {
         if (completada) {
-            return descripcion + "Completada";
+            return descripcion + " (Completado)";
         } else {
-            return descripcion + "Pendiente";
+            return descripcion + " (Pendiente)";
         }
     }
 }
-
