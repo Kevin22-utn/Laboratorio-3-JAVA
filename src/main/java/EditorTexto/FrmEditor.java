@@ -1,13 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package EditorTexto;
 
-/**
- *
- * @author matam
- */
+import java.awt.Color;
+import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import javax.swing.JFileChooser;
+
 public class FrmEditor extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmEditor.class.getName());
@@ -28,41 +34,157 @@ public class FrmEditor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtAreaTexto = new javax.swing.JTextArea();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu2 = new javax.swing.JMenu();
+        btnAbrir = new javax.swing.JMenuItem();
+        btnGuardar = new javax.swing.JMenuItem();
+        btnLimpiar = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        btnSalir = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        btnNegrita = new javax.swing.JMenuItem();
+        btnCursiva = new javax.swing.JMenuItem();
+        Color = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("jButton1");
+        txtAreaTexto.setColumns(20);
+        txtAreaTexto.setRows(5);
+        jScrollPane1.setViewportView(txtAreaTexto);
 
-        jButton2.setText("jButton2");
+        jMenuBar1.setBorder(null);
+        jMenuBar1.setFocusable(false);
+
+        jMenu2.setText("Archivo");
+
+        btnAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos24/folder (7).png"))); // NOI18N
+        btnAbrir.setText("Abrir");
+        btnAbrir.addActionListener(this::btnAbrirActionPerformed);
+        jMenu2.add(btnAbrir);
+
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos24/Save.png"))); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
+        jMenu2.add(btnGuardar);
+
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos24/button_cancel (4).png"))); // NOI18N
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+        jMenu2.add(btnLimpiar);
+        jMenu2.add(jSeparator1);
+
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos24/application-exit.png"))); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(this::btnSalirActionPerformed);
+        jMenu2.add(btnSalir);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu1.setText("Editar");
+
+        btnNegrita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos24/Edit.png"))); // NOI18N
+        btnNegrita.setText("Negrita");
+        btnNegrita.addActionListener(this::btnNegritaActionPerformed);
+        jMenu1.add(btnNegrita);
+
+        btnCursiva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos24/New.png"))); // NOI18N
+        btnCursiva.setText("Cursiva");
+        btnCursiva.addActionListener(this::btnCursivaActionPerformed);
+        jMenu1.add(btnCursiva);
+
+        Color.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos24/application_x_kcsrc (4).png"))); // NOI18N
+        Color.setText("Color");
+        Color.addActionListener(this::ColorActionPerformed);
+        jMenu1.add(Color);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addComponent(jButton2)))
-                .addGap(0, 162, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(79, 79, 79)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(0, 157, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de Texto (*.txt)", "txt"));
+        
+        int seleccion = fileChooser.showOpenDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File archivo = fileChooser.getSelectedFile();
+            try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+                txtAreaTexto.setText("");
+                String linea;
+                while ((linea = reader.readLine()) != null) {
+                    txtAreaTexto.append(linea + "\n");
+                }
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnAbrirActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        txtAreaTexto.setText("");
+        txtAreaTexto.requestFocus();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de Texto (*.txt)", "txt"));
+        
+        int seleccion = fileChooser.showSaveDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File archivo = fileChooser.getSelectedFile();
+           
+            if (!archivo.getName().toLowerCase().endsWith(".txt")) {
+                archivo = new File(archivo.getAbsolutePath() + ".txt");
+            }
+            
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
+                writer.write(txtAreaTexto.getText());
+                JOptionPane.showMessageDialog(this, "Archivo guardado exitosamente.");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error al guardar el archivo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnNegritaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNegritaActionPerformed
+        Font fuenteActual = txtAreaTexto.getFont();
+        int estilo = fuenteActual.getStyle() ^ Font.BOLD;
+        txtAreaTexto.setFont(new Font(fuenteActual.getFamily(), estilo, fuenteActual.getSize()));
+    
+    }//GEN-LAST:event_btnNegritaActionPerformed
+
+    private void btnCursivaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCursivaActionPerformed
+        Font fuenteActual = txtAreaTexto.getFont();
+        int estilo = fuenteActual.getStyle() ^ Font.ITALIC; 
+        txtAreaTexto.setFont(new Font(fuenteActual.getFamily(), estilo, fuenteActual.getSize()));
+    }//GEN-LAST:event_btnCursivaActionPerformed
+
+    private void ColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColorActionPerformed
+        java.awt.Color nuevoColor = JColorChooser.showDialog(this, "Seleccione un Color de Texto", txtAreaTexto.getForeground());
+        if (nuevoColor != null) {
+            txtAreaTexto.setForeground(nuevoColor);
+        }
+    }//GEN-LAST:event_ColorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -90,7 +212,18 @@ public class FrmEditor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JMenuItem Color;
+    private javax.swing.JMenuItem btnAbrir;
+    private javax.swing.JMenuItem btnCursiva;
+    private javax.swing.JMenuItem btnGuardar;
+    private javax.swing.JMenuItem btnLimpiar;
+    private javax.swing.JMenuItem btnNegrita;
+    private javax.swing.JMenuItem btnSalir;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JTextArea txtAreaTexto;
     // End of variables declaration//GEN-END:variables
 }
