@@ -2,67 +2,44 @@ package ConvertidorUnidades;
 
 public class ConversorTemperatura {
 
-    private double[][] matrizFactores;
-
-    public ConversorTemperatura() {
-        matrizFactores = new double[4][4];
-        matrizFactores[0][0] = 1.0;
-        matrizFactores[0][1] = 1.8;
-        matrizFactores[0][2] = 1.0;
-        matrizFactores[0][3] = 1.8;
-        matrizFactores[1][0] = 0.5555555555555556; 
-        matrizFactores[2][0] = 1.0;
-        matrizFactores[3][0] = 0.5555555555555556;
+    public double convertir(double valor, Unidadtemperatura origen, Unidadtemperatura destino) {
+        double celsius = aCelsius(valor, origen);
+        return desdeCelsius(celsius, destino);
     }
 
-    public int obtenerPosicion(String unidad) {
-        if (unidad != null) {
-            if (unidad.equals("Celsius")) {
-                return 0;
-            } else if (unidad.equals("Fahrenheit")) {
-                return 1;
-            } else if (unidad.equals("Kelvin")) {
-                return 2;
-            } else if (unidad.equals("Rankine")) {
-                return 3;
+    private double aCelsius(double valor, Unidadtemperatura unidad) {
+        switch (unidad) {
+            case CELSIUS -> {
+                return valor;
             }
+            case FAHRENHEIT -> {
+                return (valor - 32) * 5.0 / 9.0;
+            }
+            case KELVIN -> {
+                return valor - 273.15;
+            }
+            case RANKINE -> {
+                return (valor - 491.67) * 5.0 / 9.0;
+            }
+            default -> throw new IllegalArgumentException("Unidad no soportada: " + unidad);
         }
-        return -1;
     }
 
-    public double convertir(double valor, String origen, String destino) {
-        int posOrigen = obtenerPosicion(origen);
-        int posDestino = obtenerPosicion(destino);
-
-        if (posOrigen == -1 || posDestino == -1) {
-            return 0.0;
+    private double desdeCelsius(double celsius, Unidadtemperatura unidad) {
+        switch (unidad) {
+            case CELSIUS -> {
+                return celsius;
+            }
+            case FAHRENHEIT -> {
+                return celsius * 9.0 / 5.0 + 32;
+            }
+            case KELVIN -> {
+                return celsius + 273.15;
+            }
+            case RANKINE -> {
+                return (celsius + 273.15) * 9.0 / 5.0;
+            }
+            default -> throw new IllegalArgumentException("Unidad no soportada: " + unidad);
         }
-
-        if (posOrigen == posDestino) {
-            return valor;
-        }
-
-        double resultado = 0.0;
-        double celsius = valor;
-
-        if (posOrigen == 1) {
-            celsius = (valor - 32.0) * matrizFactores[1][0];
-        } else if (posOrigen == 2) {
-            celsius = valor - 273.15;
-        } else if (posOrigen == 3) {
-            celsius = (valor - 491.67) * matrizFactores[3][0];
-        }
-
-        if (posDestino == 0) {
-            resultado = celsius;
-        } else if (posDestino == 1) {
-            resultado = (celsius * matrizFactores[0][1]) + 32.0;
-        } else if (posDestino == 2) {
-            resultado = celsius + 273.15;
-        } else if (posDestino == 3) {
-            resultado = (celsius + 273.15) * matrizFactores[0][3];
-        }
-
-        return resultado;
     }
 }
